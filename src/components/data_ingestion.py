@@ -2,6 +2,7 @@ import os
 import sys
 from src.exception import CustomError
 from src.logger import logging
+from src.components.data_tranformation import DataTranformation, DataTranformationConfig
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
@@ -33,7 +34,7 @@ class DataIngestion:
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
 
             train_set.to_csv(self.ingestion_config.train_data_path, index=False, header=True)
-            train_set.to_csv(self.ingestion_config.test_data_path, index=False, header=True)
+            test_set.to_csv(self.ingestion_config.test_data_path, index=False, header=True)
 
             logging.info("Data has been ingested successfully")
 
@@ -48,4 +49,7 @@ class DataIngestion:
 
 if __name__ == "__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
+    
+    data_tranformation = DataTranformation()
+    data_tranformation.inititate_data_tranformation(train_data, test_data)
