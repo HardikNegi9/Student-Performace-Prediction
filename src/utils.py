@@ -8,6 +8,8 @@ from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomError
 
+
+#save the model
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)
@@ -20,6 +22,22 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomError(e, sys)
     
+
+
+#load the model
+def load_model(file_path):
+    try:
+        with open(file_path, 'rb') as file:
+            obj = dill.load(file)
+        return obj
+    
+    except Exception as e:
+        raise CustomError(e, sys)
+
+
+
+
+# Function to evaluate models
 def evaluate_models(x_train, y_train, x_test, y_test, models, params):
     try:
         model_report = {}
